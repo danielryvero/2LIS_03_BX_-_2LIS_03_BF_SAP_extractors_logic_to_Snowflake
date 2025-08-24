@@ -31,7 +31,7 @@ with
 
     final as (
             select
-////////////////////////bstaus (this logic comes from the link of bstaus bsttyp)///////////////////
+------------------------bstaus (this logic comes from the link of bstaus bsttyp)------------------
             case 
                 when 
                            t156c.xlabst = 'X' 
@@ -124,7 +124,7 @@ with
                 else 'V'
                     
             end as bstaus,
-/////////////////////bsttyp (this logic comes from the link of bstaus bsttyp)//////////////////    
+--------------------bsttyp (this logic comes from the link of bstaus bsttyp)------------------    
             case 
                 when 
                        t156c.xglgmg = 'X'
@@ -193,7 +193,7 @@ with
                 
                 else 'V'
             end as bsttyp,
- ////////////////////description (this logic comes from the link for bstaus bsttyp)///////////////////////////   
+ --------------------description (this logic comes from the link for bstaus bsttyp)----------------------
             case 
                 when bstaus = 'T' and bsttyp = '-' then 'Tied Empties Stock'
                 when bstaus = 'A' and bsttyp = '-' then 'Unrestricted'
@@ -238,36 +238,36 @@ with
                 when bstaus = 'V' and bsttyp = 'V' then '-'
                 else 'Non-Valuated Stock'
             end as description,
-/////////////sta_veraenderung_setzen (documented in BSTAUS_BSTTYP.docx)//////////////////
+----------------sta_veraenderung_setzen (documented in BSTAUS_BSTTYP.docx)------------------
             mseg.shkzg as shkzg_tuned,
             case 
                     when shkzg_tuned = 'S'
                     then 'plus'
                     else 'minus'                  
             end as cred_deb_ind,     
-///////////////BWBREL (documented in BWVORG / BWBREL / BWMNG / BWGEO / BWGVO / BWGVP.docx)///////////////
+--------------BWBREL (documented in BWVORG / BWBREL / BWMNG / BWGEO / BWGVO / BWGVP.docx)---------
             case 
                     when bstaus = 'V' and bsttyp = 'V' then 2
                     when mseg.matnr = mseg.matbf or mseg.matbf is null
                         then 1
                     else 2
             end as bwbrel,
-/////////////////////conversion logic needed////////////////////
+--------------------conversion logic needed--------------------
             case 
                 when null then mseg.menge
                 when mseg.meins = mseg.erfme
                 then erfmg
                 else 9999999999  --this is just to remember that we need to do currency conversion here
             end as hlp_menge,
-//////////////////////BWAPPLNM///////////////////////////////////
+----------------------BWAPPLNM----------------------
             'MM' as bwapplnm,   --this is just to put the field in, so far i've seen that it might be RT as in Retail, 
                                 --as for the field BWINDUS in structure MCBW_ZUSA. it also relates to table ROAPPL and TMCLBW
-/////////////////rocancel (this one i got from looking at all the examples in the PSA. Hard coded)//////////////////////////
+----------------rocancel (this one i got from looking at all the examples in the PSA. Hard coded)--------------------------
             case 
                 when mseg.bwart in ('102', '162', '262', '642', '906') then 'X'
                 else '-'
             end as rocancel,
-////////////////////bwmng (documented in BWVORG / BWBREL / BWMNG / BWGEO / BWGVO / BWGVP.docx)//////////////////////////
+----------------bwmng (documented in BWVORG / BWBREL / BWMNG / BWGEO / BWGVO / BWGVP.docx)--------------------------
             case 
                 when rocancel = 'X'
                     then mseg.menge*-1
@@ -276,16 +276,16 @@ with
                     then mseg.menge
                 else hlp_menge
             end as bwmng,
-//////////////////bwgeo (documented in BWVORG / BWBREL / BWMNG / BWGEO / BWGVO / BWGVP.docx)////////////////
+------------------bwgeo (documented in BWVORG / BWBREL / BWMNG / BWGEO / BWGVO / BWGVP.docx)----------------
             case 
                 when rocancel = 'X' then mseg.dmbtr*-1
                 when bwbrel = 1 then mseg.dmbtr
                 else mseg.dmbtr
             end as bwgeo,
-/////////////, bwgvo, bwgvp --still not much about them (documented in BWVORG / BWBREL / BWMNG / BWGEO / BWGVO / BWGVP.docx)///////////
+--------------bwgvo, bwgvp --still not much about them (documented in BWVORG / BWBREL / BWMNG / BWGEO / BWGVO / BWGVP.docx)------
             mseg.vkwra as bwgvo,
             mseg.vkwrt as bwgvp,
-////////////ZU_ABGANG (documented in BWVORG / BWBREL / BWMNG / BWGEO / BWGVO / BWGVP.docx and BWVORG.pdf)//////////////
+---------------ZU_ABGANG (documented in BWVORG / BWBREL / BWMNG / BWGEO / BWGVO / BWGVP.docx and BWVORG.pdf)----------
             case 
                 when mseg.bwart = '122' and mseg.shkzg = 'S' then 1
                 when mseg.bwart = '122' and mseg.shkzg = 'H' then -1
@@ -296,7 +296,7 @@ with
                 when t156.xstbw is not null and mseg.shkzg = 'S' then -1
                 when t156.xstbw is not null and mseg.shkzg = 'H' then 1
              end as departure_ind,                          --known as zu_abgang 
-/////////////BWVORG (documented in BWVORG.pdf)////////////////
+------------BWVORG (documented in BWVORG.pdf)----------------
             case 
                 when 
                         tmca.umlkz = 'X' 
@@ -352,21 +352,21 @@ with
                     then '000'
                 else '100'
             end as bwvorg,  
-////////////////bwkey (same as WERKS)////////////////////////////
+----------------bwkey (same as WERKS)----------------------------
             mseg.werks as bwkey,
- //////////////XAUTO-CNT02 (documented in the BSTAUS_BSTTYP.docx)////////////////////// 
+ --------------XAUTO-CNT02 (documented in the BSTAUS_BSTTYP.docx)---------------------- 
             case
                 when mseg.xauto = 'X'
                 then '02' else '01'
             end as T156M_counter,
             t156m.cnt02,
-//////////////every time we have an F in mseg.zustd_t156m, we need to clear the flag and join to t156m.zustd/////
+--------------every time we have an F in mseg.zustd_t156m, we need to clear the flag and join to t156m.zustd
             case 
                 when mseg.zustd_t156m = 'F'
                 then ''
                 else zustd_t156m 
             end as zustd_t156m_tuned,    
-//////////////////other fields/////////////////////////////
+------------------other fields-----------------
              mseg.sobkz,
              t156c.xlabst,
              t156m.lbbsa,
@@ -374,13 +374,13 @@ with
              mseg.bustm, 
              t156m.bustm,
              mseg.zustd,
- /////////////////this bwcounter is for the lines, see that is is set 1 when there is only 1 line and to 2 when there are 2/////////
+ ---------------this bwcounter is for the lines, see that is is set 1 when there is only 1 line and to 2 when there are 2---
              case 
                 when t156m.kbbsa is not null
                 then 2
                 else 1
              end as bwcounter,
-//////////////other fields///////////////////////////////////
+--------------other fields------------------
              'K1' as periv,             
              mseg.*     
             
@@ -411,7 +411,7 @@ with
     
         final_2 as (
             SELECT
-////////////////////////bstaus (this logic comes from the link for bstaus bsttyp)///////////////////
+------------------bstaus (this logic comes from the link for bstaus bsttyp)---------
             case 
                 when 
                            t156c.xlabst = 'X' 
@@ -504,7 +504,7 @@ with
                 else 'V'
                     
             end as bstaus,
-/////////////////////bsttyp (this logic comes from the link)//////////////////     
+-------------------bsttyp (this logic comes from the link)------------------     
             case 
                 when 
                        t156c.xglgmg = 'X'
@@ -573,7 +573,7 @@ with
                 
                 else 'V'
             end as bsttyp,
-////////////////////description (this logic comes from the link)///////////////////////////    
+--------------------description (this logic comes from the link)------------
             case 
                 when bstaus = 'T' and bsttyp = '-' then 'Tied Empties Stock'
                 when bstaus = 'A' and bsttyp = '-' then 'Unrestricted'
@@ -618,7 +618,7 @@ with
                 when bstaus = 'V' and bsttyp = 'V' then '-'
                 else 'Non-Valuated Stock'
             end as description,
-/////////////this is a hard-coded part to reverse the debit credit indicator (see everything has been inverted to make the second line happen)////////            
+------------/this is a hard-coded part to reverse the debit credit indicator (see everything has been inverted to make the second line happen)--------            
             case 
                 when mseg.shkzg = 'S'
                         then 'H'
@@ -631,29 +631,29 @@ with
                 then 'plus'
                 else 'minus'                  
             end as cred_deb_ind,     
-///////////////BWBREL (documented in BWVORG / BWBREL / BWMNG / BWGEO / BWGVO / BWGVP.docx)///////////////
+---------------------BWBREL (documented in BWVORG / BWBREL / BWMNG / BWGEO / BWGVO / BWGVP.docx)--------------/
             case 
                     when bstaus = 'V' and bsttyp = 'V' then 2
                     when mseg.matnr = mseg.matbf or mseg.matbf is null
                         then 1
                     else 2
             end as bwbrel,
-/////////////////////conversion logic needed////////////////////
+------------------conversion logic needed--------------------
             case 
                 when null then mseg.menge
                 when mseg.meins = mseg.erfme
                 then erfmg
                 else 9999999999  --this is just to remember that we need to do currency conversion here
             end as hlp_menge,
-////////////////BWAPPLNM ////////////////////////
+----------------BWAPPLNM ------------------------
             'MM' as bwapplnm, --this is just to put the field in, so far i've seen that it might be RT
                             --as in Retail, as for the field BWINDUS in structure MCBW_ZUSA. it also relates to table ROAPPL and TMCLBW
-/////////////////rocancel (this one i got from looking at all the examples in the PSA. Hard coded)//////////////////////////
+----------------rocancel (this one i got from looking at all the examples in the PSA. Hard coded)--------------------------
             case 
                 when mseg.bwart in ('102', '162', '262', '642', '906') then 'X'
                 else '-'
             end as rocancel,
-////////////////////bwmng (documented in BWVORG / BWBREL / BWMNG / BWGEO / BWGVO / BWGVP.docx)///////////////
+--------------------bwmng (documented in BWVORG / BWBREL / BWMNG / BWGEO / BWGVO / BWGVP.docx)----------
             case 
                 when rocancel = 'X'
                     then mseg.menge*-1
@@ -662,16 +662,16 @@ with
                     then mseg.menge
                 else hlp_menge
             end as bwmng,
-//////////////////bwgeo (documented in BWVORG / BWBREL / BWMNG / BWGEO / BWGVO / BWGVP.docx)////////////////
+------------------bwgeo (documented in BWVORG / BWBREL / BWMNG / BWGEO / BWGVO / BWGVP.docx)----------------
             case 
                 when rocancel = 'X' then mseg.dmbtr*-1
                 when bwbrel = 1 then mseg.dmbtr
                 else mseg.dmbtr
             end as bwgeo,
-/////////////, bwgvo, bwgvp --still not much about them (documented in BWVORG / BWBREL / BWMNG / BWGEO / BWGVO / BWGVP.docx)///////////
+----------------bwgvo, bwgvp --still not much about them (documented in BWVORG / BWBREL / BWMNG / BWGEO / BWGVO / BWGVP.docx)---
             mseg.vkwra as bwgvo,
             mseg.vkwrt as bwgvp,
-////////////ZU_ABGANG (documented in BWVORG / BWBREL / BWMNG / BWGEO / BWGVO / BWGVP.docx and BWVORG.pdf)//////////////
+------------ZU_ABGANG (documented in BWVORG / BWBREL / BWMNG / BWGEO / BWGVO / BWGVP.docx and BWVORG.pdf)--------------
             case 
                 when mseg.bwart = '122' and shkzg_tuned = 'S' then 1
                 when mseg.bwart = '122' and shkzg_tuned = 'H' then -1
@@ -682,7 +682,7 @@ with
                 when t156.xstbw is not null and shkzg_tuned = 'S' then -1
                 when t156.xstbw is not null and shkzg_tuned = 'H' then 1
              end as departure_ind,                          --known as zu_abgang 
-/////////////BWVORG (documented in BWVORG.pdf)////////////////
+---------------BWVORG (documented in BWVORG.pdf)----------------
             case 
                 when 
                         tmca.umlkz = 'X' 
@@ -738,21 +738,21 @@ with
                     then '000'
                 else '100'
             end as bwvorg,  
-////////////////bwkey (Werks)////////////////////////////
+----------------bwkey (Werks)----------------------------
             mseg.werks as bwkey,
- //////////////XAUTO-CNT02 (documented in the BSTAUS_BSTTYP.docx)//////////////////////  
+ --------------XAUTO-CNT02 (documented in the BSTAUS_BSTTYP.docx)----------  
             case
                 when mseg.xauto = 'X'
                 then '02' else '01'
                 end as T156M_counter,
             t156m.cnt02,
-//////////////every time we have an F in mseg.zustd_t156m, we need to clear the flag and join to t156m.zustd/////
+--------------every time we have an F in mseg.zustd_t156m, we need to clear the flag and join to t156m.zustd--
             case 
                 when mseg.zustd_t156m = 'F'
                 then ''
                 else zustd_t156m 
             end as zustd_t156m_tuned,
-///////////////////other fields/////////////////////////////////////
+------------------/other fields-----------------------
              mseg.sobkz,
              t156c.xlabst,
              t156m.lbbsa,
@@ -760,7 +760,7 @@ with
              mseg.bustm, 
              t156m.bustm,
              mseg.zustd,
- /////////////////this bwcounter is for the lines, see that is is set 1 and the one above is set to 2 when that happens to match the PSA resulto/////////
+ ----------------/this bwcounter is for the lines, see that is is set 1 and the one above is set to 2 when that happens to match the PSA resulto-----
              1 as bwcounter,
              'K1' as periv,
              mseg.*
@@ -802,3 +802,4 @@ from (
         select * 
         from final
      );
+
