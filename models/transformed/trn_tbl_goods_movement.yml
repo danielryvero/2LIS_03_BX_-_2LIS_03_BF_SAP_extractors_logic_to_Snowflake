@@ -1,0 +1,234 @@
+version: 2
+models:
+- name: trn_tbl_goods_movement
+  description: Goods movement header and details (MSEG and MKPF)
+  data_tests:
+  - unique:
+      column_name: material_doc_num || material_doc_year || doc_item
+  columns:
+  - name: material_key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - material_key
+        pk_table_name: ref('dim_material')
+        pk_column_names:
+        - material_key
+  - name: plant_key
+    description: Plant Key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - plant_key
+        pk_table_name: ref('dim_plant')
+        pk_column_names:
+        - plant_key
+  - name: storage_location_key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - storage_location_key
+        pk_table_name: ref('dim_storage_location')
+        pk_column_names:
+        - storage_location_key
+  - name: movement_type_key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - movement_type_key
+        pk_table_name: ref('dim_movement_type')
+        pk_column_names:
+        - movement_type_key
+  - name: entry_unit_key
+    description: Unit of entry (ERFME)
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - entry_unit_key
+        pk_table_name: ref('dim_uom')
+        pk_column_names:
+        - uom_key
+  - name: recv_issue_plant_key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - recv_issue_plant_key
+        pk_table_name: ref('dim_plant')
+        pk_column_names:
+        - plant_key
+  - name: transaction_event_type_key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - transaction_event_type_key
+        pk_table_name: ref('dim_transaction_event_type')
+        pk_column_names:
+        - transaction_event_type_key
+  - name: accounting_doc_type_key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - accounting_doc_type_key
+        pk_table_name: ref('dim_accounting_doc_type')
+        pk_column_names:
+        - accounting_doc_type_key
+  - name: revaluation_doc_type_key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - revaluation_doc_type_key
+        pk_table_name: ref('dim_accounting_doc_type')
+        pk_column_names:
+        - accounting_doc_type_key
+  - name: vendor_key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - vendor_key
+        pk_table_name: ref('dim_vendor')
+        pk_column_names:
+        - vendor_key
+  - name: customer_key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - customer_key
+        pk_table_name: ref('dim_customer')
+        pk_column_names:
+        - customer_key
+  - name: base_unit_key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - base_unit_key
+        pk_table_name: ref('dim_uom')
+        pk_column_names:
+        - uom_key
+  - name: order_price_unit_key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - order_price_unit_key
+        pk_table_name: ref('dim_uom')
+        pk_column_names:
+        - uom_key
+  - name: cost_center_key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - cost_center_key
+        pk_table_name: ref('dim_cost_center')
+        pk_column_names:
+        - cost_center_key
+  - name: coorder_key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - coorder_key
+        pk_table_name: ref('dim_coorder')
+        pk_column_names:
+        - coorder_key
+  - name: recv_issue_mat_key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - recv_issue_mat_key
+        pk_table_name: ref('dim_material')
+        pk_column_names:
+        - material_key
+  - name: recv_issue_storage_key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - recv_issue_storage_key
+        pk_table_name: ref('dim_storage_location')
+        pk_column_names:
+        - storage_location_key
+  - name: warehouse_number_key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - warehouse_number_key
+        pk_table_name: ref('dim_warehouse')
+        pk_column_names:
+        - warehouse_number_key
+  - name: storage_type_key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - storage_type_key
+        pk_table_name: ref('dim_storage_type')
+        pk_column_names:
+        - storage_type_key
+  - name: storage_bin_key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - storage_bin_key
+        pk_table_name: ref('dim_storage_bins')
+        pk_column_names:
+        - storage_bin_key
+  - name: warehouse_movement_type_key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - warehouse_movement_type_key
+        pk_table_name: ref('dim_warehouse_movement_type')
+        pk_column_names:
+        - warehouse_movement_type_key
+  - name: movement_reason_key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - movement_reason_key
+        pk_table_name: ref('dim_movement_reason')
+        pk_column_names:
+        - movement_reason_key
+  - name: profit_center_key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - profit_center_key
+        pk_table_name: ref('dim_profit_center')
+        pk_column_names:
+        - profit_center_key
+  - name: gl_account_key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - gl_account_key
+        pk_table_name: ref('dim_gl_account')
+        pk_column_names:
+        - gl_account_key
+  - name: datasource_key
+    data_tests:
+    - foreign_key:
+        fk_column_names:
+        - datasource_key
+        pk_table_name: ref('dim_datasources')
+        pk_column_names:
+        - datasource_key

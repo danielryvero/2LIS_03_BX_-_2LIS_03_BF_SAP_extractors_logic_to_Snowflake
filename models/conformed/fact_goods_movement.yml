@@ -1,0 +1,433 @@
+version: 2
+models:
+- name: fact_goods_movement
+  description: Goods movement header and details (MSEG and MKPF)
+  data_tests:
+  - unique:
+      column_name: material_doc_num || material_doc_year || doc_item
+  columns:
+  - name: material_doc_num
+    description: Number of Material Document (MBLNR)
+  - name: material_doc_year
+    description: Material Document Year (MJAHR)
+  - name: doc_item
+    description: Item in Material Document (ZEILE)
+  - name: material_key
+    description: Material Number (MATNR)
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - material_key
+        pk_table_name: ref('dim_material')
+        pk_column_names:
+        - material_key
+  - name: plant_key
+    description: Plant Key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - plant_key
+        pk_table_name: ref('dim_plant')
+        pk_column_names:
+        - plant_key
+  - name: storage_location_key
+    description: Storage Location Key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - storage_location_key
+        pk_table_name: ref('dim_storage_location')
+        pk_column_names:
+        - storage_location_key
+  - name: movement_type_key
+    description: Movement Type Key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - movement_type_key
+        pk_table_name: ref('dim_movement_type')
+        pk_column_names:
+        - movement_type_key
+  - name: posting_date
+    description: Posting Date (BUDAT)
+  - name: user_name
+    description: User Name (USNAM)
+  - name: reference_doc_number
+    description: Reference (XBLNR)
+  - name: reference_doc_number_mkpf
+    description: Reference Document Number (XBLNR_MKPF)
+  - name: quantity
+    description: Quantity in unit of entry (ERFMG)
+  - name: entry_unit_key
+    description: Unit of entry Key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - entry_unit_key
+        pk_table_name: ref('dim_uom')
+        pk_column_names:
+        - uom_key
+  - name: recv_issue_plant_key
+    description: Receiving plant/issuing plant Key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - recv_issue_plant_key
+        pk_table_name: ref('dim_plant')
+        pk_column_names:
+        - plant_key
+  - name: amount_lc
+    description: Amount in local currency (DMBTR)
+  - name: debit_credit_ind
+    description: Debit/Credit Indicator (SHKZG)
+  - name: transaction_event_type_key
+    description: Transaction/Event Type Key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - transaction_event_type_key
+        pk_table_name: ref('dim_transaction_event_type')
+        pk_column_names:
+        - transaction_event_type_key
+  - name: accounting_doc_type_key
+    description: Accounting Document Type Key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - accounting_doc_type_key
+        pk_table_name: ref('dim_accounting_doc_type')
+        pk_column_names:
+        - accounting_doc_type_key
+  - name: revaluation_doc_type_key
+    description: Revaluation Document Type Key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - revaluation_doc_type_key
+        pk_table_name: ref('dim_accounting_doc_type')
+        pk_column_names:
+        - accounting_doc_type_key
+  - name: accounting_doc_entry_date
+    description: Day On Which Accounting Document Was Entered (CPUDT)
+  - name: entry_time
+    description: Time of Entry (CPUTM)
+  - name: last_changed_on
+    description: Last Changed On (AEDAT)
+  - name: document_header_text
+    description: Document Header Text (BKTXT)
+  - name: gr_gi_slip_version
+    description: Version for Printing GR/GI Slip (WEVER)
+  - name: gr_gi_slip_number
+    description: Goods Receipt/Issue Slip Number (XABLN)
+  - name: logical_system
+    description: Logical System (AWSYS)
+  - name: transaction_code
+    description: Transaction Code (TCODE2)
+  - name: external_wms_posting
+    description: Control posting for external WMS (BFWMS)
+  - name: goods_issue_time
+    description: Time of Goods Issue (Local, Relating to a Plant) (SPE_BUDAT_UHR)
+  - name: delivery_number
+    description: Delivery (LE_VBELN)
+  - name: line_id
+    description: Unique identification of document line (LINE_ID)
+  - name: parent_id
+    description: Identifier of immediately superior line (PARENT_ID)
+  - name: auto_item
+    description: Item automatically created (XAUTO)
+  - name: batch_number
+    description: Batch Number (CHARG)
+  - name: vendor_key
+    description: Vendor Key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - vendor_key
+        pk_table_name: ref('dim_vendor')
+        pk_column_names:
+        - vendor_key
+  - name: customer_key
+    description: Customer Key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - customer_key
+        pk_table_name: ref('dim_customer')
+        pk_column_names:
+        - customer_key
+  - name: currency_code_name
+    description: Currency Key (WAERS)
+  - name: debit_credit_reval_ind
+    description: Debit/credit indicator in revaluation (SHKUM)
+  - name: valuation_type
+    description: Valuation Type (BWTAR)
+  - name: transaction_quantity
+    description: Quantity (MENGE)
+  - name: base_unit_key
+    description: Base Unit of Measure (MEINS) Key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - base_unit_key
+        pk_table_name: ref('dim_uom')
+        pk_column_names:
+        - uom_key
+  - name: qty_price_unit
+    description: Quantity in Purchase Order Price Unit (BPMNG)
+  - name: order_price_unit_key
+    description: Order Price Unit (Purchasing) (BPRME) Key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - order_price_unit_key
+        pk_table_name: ref('dim_uom')
+        pk_column_names:
+        - uom_key
+  - name: po_doc_number
+    description: Purchase order number (EBELN)
+  - name: po_doc_item
+    description: Item Number of Purchasing Document (EBELP)
+  - name: ref_doc_year
+    description: Fiscal Year of a Reference Document (LFBJA)
+  - name: document_no_ref_doc_num
+    description: Document No. of a Reference Document (LFBNR)
+  - name: reference_doc_item_num
+    description: Item of a Reference Document (LFPOS)
+  - name: sec_doc_year
+    description: Material Document Year (SJAHR)
+  - name: sec_doc_num
+    description: Number of Material Document (SMBLN)
+  - name: sec_doc_item
+    description: Item in Material Document (SMBLP)
+  - name: deliv_complete_ind
+    description: Delivery Completed Indicator (ELIKZ)
+  - name: item_text
+    description: Item Text (SGTXT)
+  - name: goods_recipient
+    description: Goods recipient (WEMPF)
+  - name: co_area
+    description: Controlling Area (KOKRS)
+  - name: cost_center_key
+    description: Cost Center (KOSTL) Key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - cost_center_key
+        pk_table_name: ref('dim_cost_center')
+        pk_column_names:
+        - cost_center_key
+  - name: old_project_num
+    description: 'Old: Project number : No longer used --> PS_POSNR (PROJN)'
+  - name: coorder_key
+    description: Order Number (AUFNR) Key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - coorder_key
+        pk_table_name: ref('dim_coorder')
+        pk_column_names:
+        - coorder_key
+  - name: fiscal_year
+    description: Fiscal Year (GJAHR)
+  - name: allow_backpost
+    description: Allow Posting to Previous Period (Backposting) (XRUEM)
+  - name: company_code
+    description: Company Code (BUKRS)
+  - name: res_num
+    description: Number of reservation/dependent requirements (RSNUM)
+  - name: res_item_num
+    description: Item Number of Reservation / Dependent Requirements (RSPOS)
+  - name: trans_event_stat
+    description: Transaction/event is relevant to statistics (KZSTR)
+  - name: recv_issue_mat_key
+    description: Receiving/Issuing Material (UMMAT) Key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - material_key
+        pk_table_name: ref('dim_material')
+        pk_column_names:
+        - material_key
+  - name: recv_issue_storage_key
+    description: Receiving/issuing storage location (UMLGO) Key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - recv_issue_storage_key
+        pk_table_name: ref('dim_storage_location')
+        pk_column_names:
+        - storage_location_key
+  - name: recv_issue_batch
+    description: Receiving/Issuing Batch (UMCHA)
+  - name: transfer_batch_type
+    description: Valuation Type of Transfer Batch (UMBAR)
+  - name: move_ind
+    description: Movement Indicator (KZBEW)
+  - name: consump_posting
+    description: Consumption posting (KZVBR)
+  - name: receipt_ind
+    description: Receipt Indicator (KZZUG)
+  - name: warehouse_number_key
+    description: Warehouse Number Key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - warehouse_number_key
+        pk_table_name: ref('dim_warehouse')
+        pk_column_names:
+        - warehouse_number_key
+  - name: storage_type_key
+    description: Storage Type Key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - storage_type_key
+        pk_table_name: ref('dim_storage_type')
+        pk_column_names:
+        - storage_type_key
+  - name: storage_bin_key
+    description: Storage Bin Key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - storage_bin_key
+        pk_table_name: ref('dim_storage_bins')
+        pk_column_names:
+        - storage_bin_key
+  - name: warehouse_movement_type_key
+    description: Movement Type for Warehouse Management (BWLVS) Key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - warehouse_movement_type_key
+        pk_table_name: ref('dim_warehouse_movement_type')
+        pk_column_names:
+        - warehouse_movement_type_key
+  - name: transfer_req_num
+    description: Transfer Requirement Number (TBNUM)
+  - name: transfer_req_item
+    description: Transfer Requirement Item (TBPOS)
+  - name: whs_posting_ind
+    description: 'Indicator: posting in warehouse management system (XBLVS)'
+  - name: src_interim_posting
+    description: 'Ind: interim storage posting for source stor.type and bin (VSCHN)'
+  - name: dest_interim_posting
+    description: 'Ind.: interim storage posting for dest.stor.type and bin (NSCHN)'
+  - name: dyn_storage_bin
+    description: 'Indicator: dynamic storage bin (DYPLA)'
+  - name: gr_gi_slips_num
+    description: Number of GR/GI Slips to Be Printed (WEANZ)
+  - name: movement_reason_key
+    description: Reason for Movement (GRUND) Key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - movement_reason_key
+        pk_table_name: ref('dim_movement_reason')
+        pk_column_names:
+        - movement_reason_key
+  - name: profit_center_key
+    description: Profit Center Key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - profit_center_key
+        pk_table_name: ref('dim_profit_center')
+        pk_column_names:
+        - profit_center_key
+  - name: order_item
+    description: Order item number (AUFPS)
+  - name: gl_account_key
+    description: G/L Account Number (SAKTO) Key
+    data_tests:
+    - not_null
+    - foreign_key:
+        fk_column_names:
+        - gl_account_key
+        pk_table_name: ref('dim_gl_account')
+        pk_column_names:
+        - gl_account_key
+  - name: po_unit
+    description: Purchase Order Unit of Measure (BSTME)
+  - name: supplier
+    description: Vendor to be supplied/who is to receive delivery (EMLIF)
+  - name: shelf_life_date
+    description: Shelf Life Expiration or Best-Before Date (VFDAT)
+  - name: partner_profit_center
+    description: Partner Profit Center (PPRCTR)
+  - name: stock_material
+    description: Material in Respect of Which Stock is Managed (MATBF)
+  - name: recv_issue_mat_2
+    description: Receiving/Issuing Material (UMMAB)
+  - name: post_str_qty
+    description: Posting string for quantities (BUSTM)
+  - name: post_str_val
+    description: Posting String for Values (BUSTW)
+  - name: qty_update
+    description: Quantity Updating in Material Master Record (MENGU)
+  - name: val_update
+    description: Value Updating in Material Master Record (WERTU)
+  - name: pre_post_stock
+    description: Total valuated stock before the posting (LBKUM)
+  - name: price_ctrl_ind
+    description: Price control indicator (VPRSV)
+  - name: settle_ref_date
+    description: Reference date for settlement (DABRBZ)
+  - name: settle_ref_date_2
+    description: Reference date for settlement (DABRZ)
+  - name: orig_doc_line
+    description: Original line in material document (URZEI)
+  - name: manufacture_date
+    description: Date of Manufacture (HSDAT)
+  - name: stock_type_mod
+    description: Stock Type Modification (Read from Table T156M) (ZUSTD_T156M)
+  - name: trans_event_type_mkpf
+    description: Transaction/Event Type (VGART_MKPF)
+  - name: posting_date_mkpf
+    description: Posting Date in the Document (BUDAT_MKPF)
+  - name: entry_date_mkpf
+    description: Day On Which Accounting Document Was Entered (CPUDT_MKPF)
+  - name: entry_time_mkpf
+    description: Time of Entry (CPUTM_MKPF)
+  - name: user_name_mkpf
+    description: User Name (USNAM_MKPF)
+  - name: trans_code_mkpf
+    description: Transaction Code (TCODE2_MKPF)
+  - name: delivery_num
+    description: Delivery (VBELN_IM)
+  - name: delivery_item
+    description: Delivery Item (VBELP_IM)
+  - name: edw_load_timestamp
+    description: last extracted datetime (edw_load_timestamp)
+  - name: datasource_key
+    description: data source Key (datasource_key)
+    data_tests:
+    - foreign_key:
+        fk_column_names:
+        - datasource_key
+        pk_table_name: ref('dim_datasources')
+        pk_column_names:
+        - datasource_key

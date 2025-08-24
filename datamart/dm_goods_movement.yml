@@ -1,0 +1,298 @@
+version: 2
+models:
+- name: dm_goods_movement
+  columns:
+  - name: amount_lc_usd
+    description: Amount in local currency (DMBTR) converted to USD
+  - name: amount_lc_adjusted_usd
+    description: Amount in local currency (DMBTR) adjusted and converted to USD
+  - name: material_doc_num
+    description: Number of Material Document (MBLNR)
+  - name: material_doc_year
+    description: Material Document Year (MJAHR)
+  - name: doc_item
+    description: Item in Material Document (ZEILE)
+  - name: sap_material_number
+    description: sap material number (matnr)
+  - name: part_number
+    description: part number
+  - name: product_description
+    description: product description
+  - name: c1_core
+    description: c1 core
+  - name: c2_core
+    description: c2 core
+  - name: core_or_reman
+    description: core or reman
+  - name: core_group_id
+    description: core group id
+  - name: core
+    description: core
+  - name: prodh1
+    description: prodh1
+  - name: prodh1_text
+    description: prodh1 text
+  - name: prodh2
+    description: prodh2
+  - name: prodh2_text
+    description: prodh2 text
+  - name: prodh3
+    description: prodh3
+  - name: prodh3_text
+    description: prodh3 text
+  - name: plant
+    description: Branch (WERKS)
+  - name: storage_location
+    description: Storage Location (LGORT)
+  - name: movement_type
+    description: Movement Type (Inventory Management) (BWART)
+  - name: movement_type_text
+    description: movement type text inventory management (btext)
+  - name: posting_date
+    description: Pstng Date (BUDAT)
+  - name: user_name
+    description: User Name (USNAM)
+  - name: reference_doc_number
+    description: Reference (XBLNR)
+  - name: reference_doc_number_mkpf
+    description: Reference Document Number (XBLNR_MKPF)
+  - name: quantity
+    description: Quantity in unit of entry (ERFMG)
+  - name: entry_unit
+    description: Unit of entry (ERFME)
+  - name: recv_issue_plant
+    description: Receiving plant/issuing plant (UMWRK)
+  - name: amount_lc
+    description: Amount in local currency (DMBTR)
+  - name: debit_credit_flag
+    description: Debit/Credit Indicator (SHKZG)
+  - name: transaction_event_type
+    description: Transaction/Event Type (VGART)
+  - name: transaction_event_type_text
+    description: Transaction/Event Type (LTEXT)
+  - name: accounting_doc_type
+    description: Document Type (BLART)
+  - name: accounting_doc_type_text
+    description: Accounting doc type text (ltext)
+  - name: revaluation_doc_type
+    description: Document type of revaluation document (BLAUM)
+  - name: revaluation_doc_type_text
+    description: Accounting doc type text (ltext)
+  - name: posting_date
+    description: Posting Date in the Document (BUDAT)
+  - name: accounting_doc_entry_date
+    description: Day On Which Accounting Document Was Entered (CPUDT)
+  - name: entry_time
+    description: Time of Entry (CPUTM)
+  - name: last_changed_on
+    description: Last Changed On (AEDAT)
+  - name: document_header_text
+    description: Document Header Text (BKTXT)
+  - name: gr_gi_slip_version
+    description: Version for Printing GR/GI Slip (WEVER)
+  - name: gr_gi_slip_number
+    description: Goods Receipt/Issue Slip Number (XABLN)
+  - name: logical_system
+    description: Logical System (AWSYS)
+  - name: transaction_code
+    description: Transaction Code (TCODE2)
+  - name: external_wms_posting
+    description: Control posting for external WMS (BFWMS)
+  - name: goods_issue_time
+    description: Time of Goods Issue (Local, Relating to a Plant) (SPE_BUDAT_UHR)
+  - name: delivery_number
+    description: Delivery (LE_VBELN)
+  - name: line_id
+    description: Unique identification of document line (LINE_ID)
+  - name: parent_id
+    description: Identifier of immediately superior line (PARENT_ID)
+  - name: auto_item
+    description: Item automatically created (XAUTO)
+  - name: batch_number
+    description: Batch Number (CHARG)
+  - name: vendor
+    description: Vendor's account number (LIFNR)
+  - name: customer_number
+    description: customer number (KUNNR)
+  - name: currency_code_name
+    description: Currency Key (WAERS)
+  - name: debit_credit__reval_ind
+    description: Debit/credit indicator in revaluation (SHKUM)
+  - name: valuation_type
+    description: Valuation Type (BWTAR)
+  - name: transaction_quantity
+    description: Quantity (MENGE)
+  - name: base_unit
+    description: Unit of entry (ERFME)
+  - name: qty_price_unit
+    description: Quantity in Purchase Order Price Unit (BPMNG)
+  - name: order_price_unit
+    description: Order Price Unit (Purchasing) (BPRME)
+  - name: po_doc_number
+    description: Purchase order number (EBELN)
+  - name: po_doc_item
+    description: Item Number of Purchasing Document (EBELP)
+  - name: ref_doc_year
+    description: Fiscal Year of a Reference Document (LFBJA)
+  - name: document_no_ref_doc_num
+    description: Document No. of a Reference Document (LFBNR)
+  - name: reference_doc_item_num
+    description: Item of a Reference Document (LFPOS)
+  - name: sec_doc_year
+    description: Material Document Year (SJAHR)
+  - name: sec_doc_num
+    description: Number of Material Document (SMBLN)
+  - name: sec_doc_item
+    description: Item in Material Document (SMBLP)
+  - name: deliv_complete_ind
+    description: Delivery Completed Indicator (ELIKZ)
+  - name: item_text
+    description: Item Text (SGTXT)
+  - name: goods_recipient
+    description: Goods recipient (WEMPF)
+  - name: controlling_area
+    description: Controlling Area (KOKRS)
+  - name: co_area
+    description: co area (KOKRS)
+  - name: cost_center
+    description: Cost Center (KOSTL)
+  - name: old_project_num
+    description: Old Project number  No longer used --> PS_POSNR (PROJN)
+  - name: coorder_number
+    description: Order Number (AUFNR)
+  - name: fiscal_year
+    description: Fiscal Year (GJAHR)
+  - name: allow_backpost
+    description: Allow Posting to Previous Period (Backposting) (XRUEM)
+  - name: company_code
+    description: Company Code (BUKRS)
+  - name: res_num
+    description: Number of reservation/dependent requirements (RSNUM)
+  - name: res_item_num
+    description: Item Number of Reservation / Dependent Requirements (RSPOS)
+  - name: trans_event_stat
+    description: Transaction/event is relevant to statistics (KZSTR)
+  - name: recv_issue_mat
+    description: Receiving/Issuing Material (UMMAT)
+  - name: recv_issue_storage_key
+    description: Receiving/issuing storage location (UMLGO)
+  - name: recv_issue_batch
+    description: Receiving/Issuing Batch (UMCHA)
+  - name: transfer_batch_type
+    description: Valuation Type of Transfer Batch (UMBAR)
+  - name: move_ind
+    description: Movement Indicator (KZBEW)
+  - name: receipt_ind
+    description: Receipt Indicator (KZZUG)
+  - name: warehouse_number
+    description: Warehouse number (LGNUM)
+  - name: storage_type
+    description: Storage Type (LGTYP)
+  - name: storage_bin
+    description: Storage Bin (LGPLA)
+  - name: warehouse_movement_type
+    description: Warehouse movement type
+  - name: transfer_req_num
+    description: Transfer Requirement Number (TBNUM)
+  - name: transfer_req_item
+    description: Transfer Requirement Item (TBPOS)
+  - name: whs_posting_ind
+    description: Indicator posting in warehouse management system (XBLVS)
+  - name: src_interim_posting
+    description: Ind interim storage posting for source stor.type and bin (VSCHN)
+  - name: dest_interim_posting
+    description: Ind. interim storage posting for dest.stor.type and bin (NSCHN)
+  - name: dyn_storage_bin
+    description: Indicator dynamic storage bin (DYPLA)
+  - name: gr_gi_slips_num
+    description: Number of GR/GI Slips to Be Printed (WEANZ)
+  - name: movement_reason
+    description: Reason for Movement (GRUND)
+  - name: movement_reason_text
+    description: Movement reason text
+  - name: company
+    description: company
+  - name: company_text
+    description: company_text
+  - name: country
+    description: country
+  - name: country_text
+    description: country_text
+  - name: business_unit
+    description: business_unit
+  - name: business_unit_text
+    description: business_unit_text
+  - name: division
+    description: division
+  - name: division_text
+    description: division_text
+  - name: region
+    description: region
+  - name: region_text
+    description: region_text
+  - name: district
+    description: district
+  - name: district_text
+    description: district_text
+  - name: order_item
+    description: order_item
+  - name: gl_account
+    description: G/L Account Number (SAKTO)
+  - name: po_unit
+    description: Purchase Order Unit of Measure (BSTME)
+  - name: supplier
+    description: Vendor to be supplied/who is to receive delivery (EMLIF)
+  - name: shelf_life_date
+    description: Shelf Life Expiration or Best-Before Date (VFDAT)
+  - name: partner_profit_center
+    description: Partner Profit Center (PPRCTR)
+  - name: stock_material
+    description: Material in Respect of Which Stock is Managed (MATBF)
+  - name: recv_issue_mat_2
+    description: Receiving/Issuing Material (UMMAB)
+  - name: post_str_qty
+    description: Posting string for quantities (BUSTM)
+  - name: post_str_val
+    description: Posting String for Values (BUSTW)
+  - name: qty_update
+    description: Quantity Updating in Material Master Record (MENGU)
+  - name: val_update
+    description: Value Updating in Material Master Record (WERTU)
+  - name: pre_post_stock
+    description: Total valuated stock before the posting (LBKUM)
+  - name: price_ctrl_ind
+    description: Price control indicator (VPRSV)
+  - name: settle_ref_date
+    description: Reference date for settlement (DABRBZ)
+  - name: settle_ref_date_2
+    description: Reference date for settlement (DABRZ)
+  - name: orig_doc_line
+    description: Original line in material document (URZEI)
+  - name: manufacture_date
+    description: Date of Manufacture (HSDAT)
+  - name: stock_type_mod
+    description: Stock Type Modification (Read from Table T156M) (ZUSTD_T156M)
+  - name: trans_event_type
+    description: Transaction/Event Type (VGART_MKPF)
+  - name: posting_date
+    description: Posting Date in the Document (BUDAT_MKPF)
+  - name: entry_date
+    description: Day On Which Accounting Document Was Entered (CPUDT_MKPF)
+  - name: entry_time
+    description: Time of Entry (CPUTM_MKPF)
+  - name: user_name
+    description: User Name (USNAM_MKPF)
+  - name: trans_code
+    description: Transaction Code (TCODE2_MKPF)
+  - name: delivery_num
+    description: Delivery (VBELN_IM)
+  - name: delivery_item
+    description: Delivery Item (VBELP_IM)
+  - name: last_change_date
+    description: Last Changed On (/BEV2/ED_AEDAT)
+  - name: system_time
+    description: System Time (/BEV2/ED_AETIM)
+  - name: edw_load_timestamp
+    description: last extracted datetime (edw_load_timestamp)
+  - name: dbt_run_timestamp
+    description: Current timestamp (dbt_run_timestamp)
